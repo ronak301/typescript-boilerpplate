@@ -1,0 +1,9 @@
+@import '~styles/settings/variables';
+
+.root {
+  position: fixed;
+  right: map-get($spacings, md);
+  bottom: map-get($spacings, md);
+  z-index: 1337;
+  background-color: aqua;
+}

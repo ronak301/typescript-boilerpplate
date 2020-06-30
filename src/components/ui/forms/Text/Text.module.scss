@@ -1,0 +1,7 @@
+@import '~styles/settings/variables';
+
+.root {
+  background-color: lime;
+  color: map-get($colors, alpha);
+  outline: none;
+}

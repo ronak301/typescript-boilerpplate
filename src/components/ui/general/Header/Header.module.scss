@@ -1,0 +1,69 @@
+@import '~styles/settings/variables';
+@import '~styles/tools/mixins/respond-to';
+@import '~styles/tools/mixins/get-font-styles';
+
+.root {
+  background-color: map-get($colors, primary);
+  color: map-get($colors, beta);
+  position: sticky;
+  top: 0;
+  user-select: none;
+  z-index: 1337;
+  height: map-get($header-heights, navbar-down);
+
+  @include respond-to('navbar') {
+    height: map-get($header-heights, navbar-up);
+  };
+}
+
+.logotype {
+  margin-right: 5px;
+
+  @include respond-to(navbar) {
+    width: 400px;
+  }
+
+  svg {
+    display: block;
+    width: map-get($header-heights, navbar-down);
+    height: map-get($header-heights, navbar-down);
+    fill: map-get($colors, beta);
+    padding: 5px 0;
+
+    @include respond-to('navbar') {
+      width: map-get($header-heights, navbar-up);
+      height: map-get($header-heights, navbar-up);
+    };
+  }
+}
+
+.logotypeAnchor {
+  display: block;
+  width: 40px;
+}
+
+.navLink {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  @include get-font-styles(oslo);
+  line-height: map-get($header-heights, navbar-down);
+  padding: 0 15px;
+  font-weight: 700;
+  margin-left: 1px;
+  color: map-get($colors, beta);
+
+  &:hover {
+    background-color: map-get($colors, beta);
+    color: map-get($colors, alpha);
+  }
+
+  @include respond-to('navbar') {
+    line-height: map-get($header-heights, navbar-up);
+  };
+}
+
+.navLinkActive {
+  background-color: map-get($colors, beta);
+  color: map-get($colors, alpha);
+}

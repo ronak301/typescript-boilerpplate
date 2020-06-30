@@ -1,0 +1,9 @@
+@import '~styles/settings/variables';
+
+.root {
+  background-color: map-get($colors, primary);
+  line-height: 50px;
+  color: map-get($colors, beta);
+  text-align: center;
+  font-weight: 700;
+}

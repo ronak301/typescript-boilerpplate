@@ -1,0 +1,24 @@
+@import '~styles/settings/variables';
+@import '~styles/tools/mixins/respond-to';
+
+.root {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+
+  @each $breakpoint, $padding in $container-paddings {
+    @if ($breakpoint == 'root') {
+      padding-left: $padding;
+      padding-right: $padding;
+    } @else {
+      @include respond-to($breakpoint) {
+        padding-left: $padding;
+        padding-right: $padding;
+      };
+    }
+  };
+}
+
+.fullWidth {
+  max-width: none;
+}
