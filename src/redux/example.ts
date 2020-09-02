@@ -3,7 +3,7 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { of, from } from 'rxjs';
 
-import { fetchGunnarx2 } from 'api/example';
+import { fetchExample } from 'api/example';
 
 // Constants
 const TOGGLE_ACTIVE = 'example/TOGGLE_ACTIVE';
@@ -123,7 +123,7 @@ const testEpic: Epic<Action, Action, State> = (action$) =>
   action$.pipe(
     ofType(FETCH_GUNNARX2_START),
     switchMap(() =>
-      from(fetchGunnarx2()).pipe(
+      from(fetchExample()).pipe(
         map((response) => fetchGunnarx2Success(response)),
         catchError((error) => of(fetchGunnarx2Error(error)))
       )
