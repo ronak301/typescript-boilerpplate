@@ -1,18 +1,18 @@
-import { useRef, useEffect, RefObject } from 'react';
+import { useRef, useEffect, RefObject, useCallback } from 'react';
 
-import { isSSR } from 'utils';
+import { isSSR, getElement } from 'utils';
 
 interface Props {
-  readonly type: string;
-  readonly listener: EventListener;
-  readonly element?: RefObject<HTMLElement>;
-  readonly options?: AddEventListenerOptions;
+  type: keyof WindowEventMap;
+  listener: EventListener;
+  element?: RefObject<Element> | Document | Window;
+  options?: AddEventListenerOptions;
 }
 
 export const useEventListener = ({
   type,
   listener,
-  element = isSSR ? undefined : (window as any),
+  element = isSSR ? undefined : window,
   options
 }: Props) => {
   const savedListener = useRef<EventListener>();
@@ -21,11 +21,13 @@ export const useEventListener = ({
     savedListener.current = listener;
   }, [listener]);
 
-  useEffect(() => {
-    const getElement = element?.current ?? (element as any);
-    const eventListener = (event: Event) => savedListener?.current?.(event);
-    getElement.addEventListener(type, eventListener, options);
+  const handleEventListener = useCallback((event: Event) => {
+    savedListener.current?.(event);
+  }, []);
 
-    return () => getElement.removeEventListener(type, eventListener);
-  }, [type, element, options]);
+  useEffect(() => {
+    const target = getElement(element);
+    target?.addEventListener(type, handleEventListener, options);
+    return () => target?.removeEventListener(type, handleEventListener);
+  }, [type, element, options, handleEventListener]);
 };

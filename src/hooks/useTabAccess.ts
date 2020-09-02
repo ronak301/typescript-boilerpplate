@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 
 import { useEventListener } from 'hooks';
 
-export const useTabAccess = () => {
+export const useTabAccess = (): boolean => {
   const [isTabbing, setIsTabbing] = useState(false);
 
   const handleKeydown = useCallback(

@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useWindowSize } from 'hooks';
 import { isSSR } from 'utils';
 
-export const useBreakpoint = () => {
+export const useBreakpoint = (): string | undefined => {
   const { width } = useWindowSize();
   const getBreakpoint = useCallback(
     () =>

@@ -4,8 +4,8 @@ type IntervalFunction = () => unknown | void;
 
 export const useInterval = (
   callback: IntervalFunction,
-  delay: number | null
-) => {
+  delay?: number
+): void => {
   const savedCallback = useRef<IntervalFunction | null>(null);
 
   useEffect(() => {

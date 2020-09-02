@@ -3,12 +3,12 @@ import { useCallback, RefObject } from 'react';
 import { useEventListener } from 'hooks';
 
 export const useClickOutside = (
-  ref: RefObject<HTMLElement>,
+  ref: RefObject<Element>,
   callback: (event: MouseEvent) => void
-) => {
+): void => {
   const handleClick = useCallback(
     (event) => {
-      if (!ref.current?.contains(event.target as Node)) {
+      if (!ref.current?.contains(event.target)) {
         callback(event);
       }
     },

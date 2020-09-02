@@ -8,6 +8,7 @@ import { usePrevious } from './usePrevious';
 import { useEventListener } from './useEventListener';
 import { useBreakpoint } from './useBreakpoint';
 import { useInterval } from './useInterval';
+import { useMutationObserver } from './useMutationObserver';
 
 export {
   useTabAccess,
@@ -19,5 +20,6 @@ export {
   usePrevious,
   useEventListener,
   useBreakpoint,
-  useInterval
+  useInterval,
+  useMutationObserver
 };

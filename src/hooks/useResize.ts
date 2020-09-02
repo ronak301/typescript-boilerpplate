@@ -3,7 +3,10 @@ import { debounce } from 'lodash';
 
 import { useEventListener } from 'hooks';
 
-export const useResize = (callback: (event: Event) => void, wait = 250) => {
+export const useResize = (
+  callback: (event: Event) => void,
+  wait: number = 250
+): void => {
   const handleResize = useMemo(
     () =>
       wait !== 0

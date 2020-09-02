@@ -4,17 +4,28 @@ import { throttle } from 'lodash';
 import { useEventListener } from 'hooks';
 import { isSSR } from 'utils';
 
-export const useScroll = (wait = 250) => {
-  const [scroll, setScroll] = useState({
-    y: isSSR ? 0 : window.pageYOffset,
-    direction: ''
+interface Scroll {
+  y?: number;
+  direction?: 'up' | 'down';
+}
+
+export const useScroll = (wait: number = 250): Scroll => {
+  const [scroll, setScroll] = useState<Scroll>({
+    y: isSSR ? undefined : window.pageYOffset,
+    direction: undefined
   });
 
   const scrollFunc = useCallback(() => {
     const { pageYOffset } = window;
+    const setDirection = (prev: Scroll) => {
+      if (prev.y !== undefined) {
+        return prev.y > pageYOffset ? 'up' : 'down';
+      }
+    };
+
     setScroll((prev) => ({
       y: pageYOffset,
-      direction: prev.y > pageYOffset ? 'up' : 'down'
+      direction: setDirection(prev)
     }));
   }, []);
 
