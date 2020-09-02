@@ -4,14 +4,19 @@
  * building something.
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Portal } from 'components/tools';
 import { Container } from 'components/ui/general';
 import { Text } from 'components/ui/forms';
-import { toggleActive, selectActive } from 'redux/example';
+import {
+  toggleActive,
+  fetchGunnarx2Start,
+  selectActive,
+  selectGunnarx2
+} from 'redux/example';
 import {
   useBreakpoint,
   useClickOutside,
@@ -28,6 +33,7 @@ const Home = () => {
   const [keyPressEscCount, setKeyPressEscCount] = useState(0);
   const dispatch = useDispatch();
   const selectorActive = useSelector(selectActive);
+  const selectorGunnarx2 = useSelector(selectGunnarx2);
   const breakpoint = useBreakpoint();
   const scroll = useScroll(250);
   const windowSize = useWindowSize(250);
@@ -43,6 +49,37 @@ const Home = () => {
   useInterval(() => {
     setIntervalCount(intervalCount + 1);
   }, 1000);
+
+  const renderGunnarx2 = useCallback(() => {
+    const { data, loading, error } = selectorGunnarx2;
+
+    if (loading) {
+      return <div>Loading...</div>;
+    }
+
+    if (error) {
+      return <div>Error...</div>;
+    }
+
+    if (data && Object.keys(data).length) {
+      // eslint-disable-next-line camelcase
+      const { avatar_url, url } = data.data;
+      return (
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {/* eslint-disable-next-line camelcase */}
+          <img src={avatar_url} alt="" />
+        </a>
+      );
+    }
+
+    return (
+      <div>
+        <button type="button" onClick={() => dispatch(fetchGunnarx2Start())}>
+          Fetch gunnarx2
+        </button>
+      </div>
+    );
+  }, [dispatch, selectorGunnarx2]);
 
   return (
     <>
@@ -165,16 +202,19 @@ const Home = () => {
       <Portal>
         <section>
           <Container>
-            <button
-              type="button"
-              data-cy="toggle-redux-button"
-              onClick={() => dispatch(toggleActive())}
-            >
-              Toggle redux
-            </button>
-            <span data-cy="toggle-redux-value">
-              {` - ${selectorActive.toString()}`}
-            </span>
+            <div>
+              <button
+                type="button"
+                data-cy="toggle-redux-button"
+                onClick={() => dispatch(toggleActive())}
+              >
+                Toggle redux
+              </button>
+              <span data-cy="toggle-redux-value">
+                {` - ${selectorActive.toString()}`}
+              </span>
+            </div>
+            {renderGunnarx2()}
           </Container>
         </section>
       </Portal>

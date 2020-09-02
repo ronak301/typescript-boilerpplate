@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /**
  * This route is just for showcase, don't follow the
  * way of styling or structure. Remove this before you

@@ -8,6 +8,7 @@ import * as Sentry from '@sentry/browser';
 import { store } from 'redux/store';
 import { App, ServiceWorker } from 'components/tools';
 import { isProduction } from 'utils';
+import { setupInterceptors } from 'api';
 import 'styles/_global.scss';
 
 if (isProduction && process.env.REACT_APP_SENTRY_DSN) {
@@ -17,6 +18,8 @@ if (isProduction && process.env.REACT_APP_SENTRY_DSN) {
     environment: process.env.REACT_APP_SENTRY_ENVIRONMENT
   });
 }
+
+setupInterceptors();
 
 render(
   <StrictMode>

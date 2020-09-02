@@ -50,7 +50,7 @@ module.exports = {
     'no-underscore-dangle': [
       2,
       {
-        allow: ['__REDUX_DEVTOOLS_EXTENSION__']
+        allow: ['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__']
       }
     ]
   },

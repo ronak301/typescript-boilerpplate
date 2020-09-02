@@ -1,17 +1,22 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { createEpicMiddleware } from 'redux-observable';
 
 import { reducers } from './reducers';
-import { isSSR, isProduction } from 'utils';
+import { epics } from './epics';
+import { isProduction } from 'utils';
 
-const rootReducer = combineReducers({
-  ...reducers
-});
+// TODO: Fix this <any, any, any>
+const epicMiddleware = createEpicMiddleware<any, any, any>();
 
-let composeEnhancers;
-if (!isSSR) {
-  composeEnhancers = !isProduction
-    ? (window as any).__REDUX_DEVTOOLS_EXTENSION__?.()
-    : undefined;
-}
+const composeEnhancers = isProduction
+  ? compose
+  : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const store = createStore(rootReducer, composeEnhancers);
+const store = createStore(
+  reducers,
+  composeEnhancers(applyMiddleware(epicMiddleware))
+);
+
+epicMiddleware.run(epics);
+
+export { store };
