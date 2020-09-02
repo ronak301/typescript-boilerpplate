@@ -5,7 +5,7 @@
 ## Mentionable features
 
 - Typescript
-- Redux
+- Redux, reselect & redux-observable
 - Sentry
 - Jest together with [@testing-library](https://testing-library.com/docs/react-testing-library/intro)
 - Cypress
