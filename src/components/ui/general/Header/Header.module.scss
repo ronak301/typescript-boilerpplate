@@ -10,6 +10,7 @@
   user-select: none;
   z-index: 1337;
   height: map-get($header-heights, navbar-down);
+  overflow: hidden;
 
   @include respond-to('navbar') {
     height: map-get($header-heights, navbar-up);

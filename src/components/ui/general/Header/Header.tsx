@@ -18,6 +18,10 @@ const Header = () => {
         children: 'Grid'
       },
       {
+        to: '/form',
+        children: 'Form'
+      },
+      {
         to: `/${new Date().getTime()}`,
         children: '404'
       }

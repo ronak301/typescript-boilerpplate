@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Portal } from 'components/tools';
 import { Container } from 'components/ui/general';
-import { Text } from 'components/ui/forms';
 import {
   toggleActive,
   fetchUserStart,
@@ -113,7 +112,6 @@ const Home = () => {
               </div>
             );
           })}
-          <Text />
         </Container>
       </section>
       <aside

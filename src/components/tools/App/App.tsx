@@ -21,6 +21,7 @@ const App = () => {
               <Switch>
                 <Route exact path="/" component={routes.Home} />
                 <Route exact path="/grid" component={routes.Grid} />
+                <Route exact path="/form" component={routes.Form} />
                 <Route component={routes.NotFound} />
               </Switch>
             </Suspense>

@@ -1,21 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { ValidationRules, UseFormMethods } from 'react-hook-form';
 
 import styles from './Text.module.scss';
 
-// Recommended library - https://react-hook-form.com/
+interface TextProps {
+  name: string;
+  placeholder?: string;
+  ariaLabel?: string;
+  register: UseFormMethods['register'];
+  validation?: ValidationRules;
+}
 
-const Text = () => {
-  const [value, setValue] = useState('');
-
+const Text = ({
+  name,
+  placeholder,
+  ariaLabel,
+  register,
+  validation = {}
+}: TextProps) => {
   return (
     <input
       type="text"
-      name="text"
-      placeholder="text"
-      aria-label="text"
+      ref={register({ ...validation })}
+      autoComplete="off"
+      name={name}
+      placeholder={placeholder}
+      aria-label={ariaLabel}
       className={styles.root}
-      value={value}
-      onChange={({ target }) => setValue(target.value)}
     />
   );
 };
