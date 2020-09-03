@@ -1,3 +1,9 @@
 import axios from 'axios';
 
-export const fetchExample = () => axios.get('backend://users/gunnarx2');
+import { getAsObservable } from 'api/utils';
+
+export const fetchExample = (id: number | string) =>
+  axios.get(`backend://users/${id}`);
+
+export const fetchExampleAsObservable = (id: number | string) =>
+  getAsObservable(`backend://users/${id}`);

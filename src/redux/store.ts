@@ -5,8 +5,7 @@ import { reducers } from './reducers';
 import { epics } from './epics';
 import { isProduction } from 'utils';
 
-// TODO: Fix this <any, any, any>
-const epicMiddleware = createEpicMiddleware<any, any, any>();
+const epicMiddleware = createEpicMiddleware();
 
 const composeEnhancers = isProduction
   ? compose

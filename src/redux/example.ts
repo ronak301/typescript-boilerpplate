@@ -3,32 +3,24 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { of, from } from 'rxjs';
 
-import { fetchExample } from 'api/example';
+import { fetchExampleAsObservable } from 'api/example';
 
 // Constants
 const TOGGLE_ACTIVE = 'example/TOGGLE_ACTIVE';
-const FETCH_GUNNARX2_START = 'example/FETCH_GUNNARX2_START';
-const FETCH_GUNNARX2_SUCCESS = 'example/FETCH_GUNNARX2_SUCCESS';
-const FETCH_GUNNARX2_ERROR = 'example/FETCH_GUNNARX2_ERROR';
+const FETCH_USER_START = 'example/FETCH_USER_START';
+const FETCH_USER_SUCCESS = 'example/FETCH_USER_SUCCESS';
+const FETCH_USER_ERROR = 'example/FETCH_USER_ERROR';
 
 // Types
-interface Gunnarx2Data {
-  readonly data: {
-    // eslint-disable-next-line camelcase
-    avatar_url: string;
-    url: string;
-  };
-}
-
 interface Action {
   readonly type: string;
-  readonly payload: Gunnarx2Data | boolean;
+  readonly payload: any;
 }
 
 interface State {
   readonly active: boolean;
-  readonly gunnarx2: {
-    data: Gunnarx2Data | null;
+  readonly user: {
+    name: string | null;
     loading: boolean;
     error: boolean;
   };
@@ -42,35 +34,35 @@ export const selectActive = createSelector(
   ({ active }) => active
 );
 
-export const selectGunnarx2 = createSelector(
-  [selectExample],
-  ({ gunnarx2 }) => gunnarx2
-);
+export const selectUser = createSelector([selectExample], ({ user }) => user);
 
 // Actions
 export const toggleActive = () => ({
   type: TOGGLE_ACTIVE
 });
 
-export const fetchGunnarx2Start = () => ({
-  type: FETCH_GUNNARX2_START
+export const fetchUserStart = (id: number | string) => ({
+  type: FETCH_USER_START,
+  payload: id
 });
 
-export const fetchGunnarx2Success = (data: Gunnarx2Data) => ({
-  type: FETCH_GUNNARX2_SUCCESS,
+export const fetchUserSuccess = (
+  data: { data: { name: string } } | unknown
+) => ({
+  type: FETCH_USER_SUCCESS,
   payload: data
 });
 
-export const fetchGunnarx2Error = (error: boolean) => ({
-  type: FETCH_GUNNARX2_ERROR,
+export const fetchUserError = (error: boolean) => ({
+  type: FETCH_USER_ERROR,
   payload: error
 });
 
 // Reducers
 const initialState = {
   active: false,
-  gunnarx2: {
-    data: null,
+  user: {
+    name: null,
     loading: false,
     error: false
   }
@@ -83,32 +75,32 @@ export default (state: State = initialState, action: Action) => {
         ...state,
         active: !state.active
       };
-    case FETCH_GUNNARX2_START:
+    case FETCH_USER_START:
       return {
         ...state,
-        gunnarx2: {
-          ...state.gunnarx2,
-          data: {},
+        user: {
+          ...state.user,
+          name: null,
           loading: true,
           error: false
         }
       };
-    case FETCH_GUNNARX2_SUCCESS:
+    case FETCH_USER_SUCCESS:
       return {
         ...state,
-        gunnarx2: {
-          ...state.gunnarx2,
-          data: action.payload,
+        user: {
+          ...state.user,
+          name: action.payload.data.name,
           loading: false,
           error: false
         }
       };
-    case FETCH_GUNNARX2_ERROR:
+    case FETCH_USER_ERROR:
       return {
         ...state,
-        gunnarx2: {
-          ...state.gunnarx2,
-          data: {},
+        user: {
+          ...state.user,
+          name: null,
           loading: false,
           error: true
         }
@@ -121,11 +113,11 @@ export default (state: State = initialState, action: Action) => {
 // Epics
 const testEpic: Epic<Action, Action, State> = (action$) =>
   action$.pipe(
-    ofType(FETCH_GUNNARX2_START),
-    switchMap(() =>
-      from(fetchExample()).pipe(
-        map((response) => fetchGunnarx2Success(response)),
-        catchError((error) => of(fetchGunnarx2Error(error)))
+    ofType(FETCH_USER_START),
+    switchMap((action) =>
+      from(fetchExampleAsObservable(action.payload)).pipe(
+        map((response) => fetchUserSuccess(response)),
+        catchError((error) => of(fetchUserError(error)))
       )
     )
   );

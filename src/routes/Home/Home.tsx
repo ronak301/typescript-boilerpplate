@@ -4,7 +4,7 @@
  * building something.
  */
 
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,9 +13,9 @@ import { Container } from 'components/ui/general';
 import { Text } from 'components/ui/forms';
 import {
   toggleActive,
-  fetchGunnarx2Start,
+  fetchUserStart,
   selectActive,
-  selectGunnarx2
+  selectUser
 } from 'redux/example';
 import {
   useBreakpoint,
@@ -31,9 +31,10 @@ const Home = () => {
   const [intervalCount, setIntervalCount] = useState(0);
   const [clickOutsideCount, setClickOutsideCount] = useState(0);
   const [keyPressEscCount, setKeyPressEscCount] = useState(0);
+  const [rangeValue, setRangeValue] = useState('1');
   const dispatch = useDispatch();
   const selectorActive = useSelector(selectActive);
-  const selectorGunnarx2 = useSelector(selectGunnarx2);
+  const selectorUser = useSelector(selectUser);
   const breakpoint = useBreakpoint();
   const scroll = useScroll(250);
   const windowSize = useWindowSize(250);
@@ -50,8 +51,12 @@ const Home = () => {
     setIntervalCount(intervalCount + 1);
   }, 1000);
 
-  const renderGunnarx2 = useCallback(() => {
-    const { data, loading, error } = selectorGunnarx2;
+  useEffect(() => {
+    dispatch(fetchUserStart(rangeValue));
+  }, [dispatch, rangeValue]);
+
+  const renderUser = useCallback(() => {
+    const { name, loading, error } = selectorUser;
 
     if (loading) {
       return <div>Loading...</div>;
@@ -61,25 +66,12 @@ const Home = () => {
       return <div>Error...</div>;
     }
 
-    if (data && Object.keys(data).length) {
-      // eslint-disable-next-line camelcase
-      const { avatar_url, url } = data.data;
-      return (
-        <a href={url} target="_blank" rel="noopener noreferrer">
-          {/* eslint-disable-next-line camelcase */}
-          <img src={avatar_url} alt="" />
-        </a>
-      );
+    if (name?.length) {
+      return <div>{name}</div>;
     }
 
-    return (
-      <div>
-        <button type="button" onClick={() => dispatch(fetchGunnarx2Start())}>
-          Fetch gunnarx2
-        </button>
-      </div>
-    );
-  }, [dispatch, selectorGunnarx2]);
+    return null;
+  }, [selectorUser]);
 
   return (
     <>
@@ -181,28 +173,15 @@ const Home = () => {
             </ul>
           </li>
           <li>
-            Some hooks are not being showcased, so take a look at them yourself:
-            <ul style={{ marginBottom: 0 }}>
-              <li>
-                <code style={{ fontSize: '14px' }}>useEventListener()</code>
-              </li>
-              <li>
-                <code style={{ fontSize: '14px' }}>usePrevious()</code>
-              </li>
-              <li>
-                <code style={{ fontSize: '14px' }}>useTabAccess()</code>
-              </li>
-              <li>
-                <code style={{ fontSize: '14px' }}>useResize()</code>
-              </li>
-            </ul>
+            Some hooks are not being showcased, so take a look at them
+            yourself...
           </li>
         </ul>
       </aside>
       <Portal>
         <section>
           <Container>
-            <div>
+            <div style={{ paddingTop: '20px' }}>
               <button
                 type="button"
                 data-cy="toggle-redux-button"
@@ -214,7 +193,26 @@ const Home = () => {
                 {` - ${selectorActive.toString()}`}
               </span>
             </div>
-            {renderGunnarx2()}
+            <div style={{ paddingTop: '20px' }}>
+              <b>Showcase of cancellation</b>
+              <div style={{ fontSize: '14px' }}>
+                Drag the range slider below and look at your network tab.
+              </div>
+              <div style={{ fontSize: '14px' }}>
+                It cancels pending requests if a new one appears.
+              </div>
+            </div>
+            <div style={{ paddingBottom: '20px' }}>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                step="1"
+                value={rangeValue}
+                onChange={({ target }) => setRangeValue(target.value)}
+              />
+              {renderUser()}
+            </div>
           </Container>
         </section>
       </Portal>

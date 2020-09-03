@@ -8,11 +8,11 @@ const apiEnvironment: ApiEnvironment = {};
 
 switch (true) {
   case isLocalhost():
-    apiEnvironment.apiUrl = 'https://api.github.com/';
+    apiEnvironment.apiUrl = 'https://jsonplaceholder.typicode.com/';
     break;
 
   default:
-    apiEnvironment.apiUrl = 'https://api.github.com/';
+    apiEnvironment.apiUrl = 'https://jsonplaceholder.typicode.com/';
 }
 
 export default apiEnvironment;
