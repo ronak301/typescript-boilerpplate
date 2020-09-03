@@ -4,6 +4,7 @@ module.exports = {
   extends: ['react-app', 'airbnb', 'prettier', 'prettier/react'],
   plugins: ['@typescript-eslint', 'babel', 'cypress', 'prettier'],
   rules: {
+    'no-unused-vars': 1,
     'prettier/prettier': 2,
     'consistent-return': 0,
     'no-unused-expressions': 0,
