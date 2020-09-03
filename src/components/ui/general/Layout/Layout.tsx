@@ -4,11 +4,11 @@ import { Header, Footer } from 'components/ui/general';
 import { useTabAccess } from 'hooks';
 import styles from './Layout.module.scss';
 
-interface Props {
+interface LayoutProps {
   readonly children: ReactNode;
 }
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children }: LayoutProps) => {
   useTabAccess();
 
   return (

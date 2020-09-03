@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 
 import styles from './ServiceWorker.module.scss';
 
-interface Props {
+interface ServiceWorkerProps {
   readonly onUpdate: () => void;
 }
 
-const ServiceWorker = ({ onUpdate }: Props) => {
+const ServiceWorker = ({ onUpdate }: ServiceWorkerProps) => {
   const [show, setShow] = useState(true);
 
   if (show) {

@@ -12,12 +12,12 @@ const FETCH_USER_SUCCESS = 'example/FETCH_USER_SUCCESS';
 const FETCH_USER_ERROR = 'example/FETCH_USER_ERROR';
 
 // Types
-interface Action {
+interface ExampleAction {
   readonly type: string;
   readonly payload: any;
 }
 
-interface State {
+interface ExampleState {
   readonly active: boolean;
   readonly user: {
     name: string | null;
@@ -27,7 +27,8 @@ interface State {
 }
 
 // Selectors
-export const selectExample = (state: { example: State }) => state.example;
+export const selectExample = (state: { example: ExampleState }) =>
+  state.example;
 
 export const selectActive = createSelector(
   [selectExample],
@@ -68,7 +69,7 @@ const initialState = {
   }
 };
 
-export default (state: State = initialState, action: Action) => {
+export default (state: ExampleState = initialState, action: ExampleAction) => {
   switch (action.type) {
     case TOGGLE_ACTIVE:
       return {
@@ -111,7 +112,7 @@ export default (state: State = initialState, action: Action) => {
 };
 
 // Epics
-const testEpic: Epic<Action, Action, State> = (action$) =>
+const testEpic: Epic<ExampleAction, ExampleAction, ExampleState> = (action$) =>
   action$.pipe(
     ofType(FETCH_USER_START),
     switchMap((action) =>

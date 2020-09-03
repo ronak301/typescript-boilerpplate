@@ -4,16 +4,16 @@ import { Portal } from 'components/tools';
 import { ServiceWorker as ServiceWorkerModal } from 'components/ui/modals';
 import { isLocalhost, isProduction } from 'utils';
 
-interface Config {
+interface ServiceWorkerConfig {
   readonly onSuccess?: (registration: ServiceWorkerRegistration) => void;
   readonly onUpdate?: (registration: ServiceWorkerRegistration) => void;
 }
 
-interface Props {
+interface ServiceWorkerProps {
   readonly showUpdateModal?: boolean;
 }
 
-const ServiceWorker = ({ showUpdateModal = false }: Props) => {
+const ServiceWorker = ({ showUpdateModal = false }: ServiceWorkerProps) => {
   const [updateAvailable, setUpdateAvailable] = useState(false);
 
   const reloadPageAndUnregister = useCallback(() => {
@@ -24,40 +24,43 @@ const ServiceWorker = ({ showUpdateModal = false }: Props) => {
     });
   }, []);
 
-  const registerValidSW = useCallback((swUrl: string, config?: Config) => {
-    navigator.serviceWorker
-      .register(swUrl)
-      .then((registration) => {
-        const getRegistration = registration;
-        getRegistration.onupdatefound = () => {
-          const installingWorker = registration.installing;
-          if (installingWorker === null) {
-            return;
-          }
-          installingWorker.onstatechange = () => {
-            if (installingWorker.state === 'installed') {
-              if (navigator.serviceWorker.controller) {
-                console.log(
-                  'New content is available and will be used when all tabs for this page are closed.'
-                );
-                config?.onUpdate?.(getRegistration);
-                setUpdateAvailable(true);
-              } else {
-                console.log('Content is cached for offline use.');
-                config?.onSuccess?.(getRegistration);
-                setUpdateAvailable(false);
-              }
+  const registerValidSW = useCallback(
+    (swUrl: string, config?: ServiceWorkerConfig) => {
+      navigator.serviceWorker
+        .register(swUrl)
+        .then((registration) => {
+          const getRegistration = registration;
+          getRegistration.onupdatefound = () => {
+            const installingWorker = registration.installing;
+            if (installingWorker === null) {
+              return;
             }
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed') {
+                if (navigator.serviceWorker.controller) {
+                  console.log(
+                    'New content is available and will be used when all tabs for this page are closed.'
+                  );
+                  config?.onUpdate?.(getRegistration);
+                  setUpdateAvailable(true);
+                } else {
+                  console.log('Content is cached for offline use.');
+                  config?.onSuccess?.(getRegistration);
+                  setUpdateAvailable(false);
+                }
+              }
+            };
           };
-        };
-      })
-      .catch((error) => {
-        console.error('Error during service worker registration:', error);
-      });
-  }, []);
+        })
+        .catch((error) => {
+          console.error('Error during service worker registration:', error);
+        });
+    },
+    []
+  );
 
   const checkValidServiceWorker = useCallback(
-    (swUrl: string, config?: Config) => {
+    (swUrl: string, config?: ServiceWorkerConfig) => {
       // Check if the service worker can be found. If it can't reload the page.
       fetch(swUrl, {
         headers: { 'Service-Worker': 'script' }
@@ -86,7 +89,7 @@ const ServiceWorker = ({ showUpdateModal = false }: Props) => {
   );
 
   const register = useCallback(
-    (config?: Config) => {
+    (config?: ServiceWorkerConfig) => {
       if (isProduction && 'serviceWorker' in navigator) {
         // The URL constructor is available in all browsers that support SW.
         const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);

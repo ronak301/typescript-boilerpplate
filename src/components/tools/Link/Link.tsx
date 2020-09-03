@@ -2,15 +2,18 @@ import React, { ReactNode } from 'react';
 import {
   Link as RouterLink,
   NavLink as RouterNavLink,
-  LinkProps,
+  LinkProps as RouterLinkLink,
   NavLinkProps
 } from 'react-router-dom';
 
-interface Props {
+interface LinkProps {
   readonly children: ReactNode;
 }
 
-const Link = ({ children, ...props }: Props & LinkProps & NavLinkProps) => {
+const Link = ({
+  children,
+  ...props
+}: LinkProps & RouterLinkLink & NavLinkProps) => {
   if (props?.activeClassName) {
     return <RouterNavLink {...props}>{children}</RouterNavLink>;
   }

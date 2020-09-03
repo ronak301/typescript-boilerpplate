@@ -1,11 +1,11 @@
 import { ReactNode, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 
-interface Props {
+interface PortalProps {
   readonly children: ReactNode;
 }
 
-const Portal = ({ children }: Props) => {
+const Portal = ({ children }: PortalProps) => {
   const portalSelector = useMemo(
     () => document.querySelector('#portal') ?? null,
     []

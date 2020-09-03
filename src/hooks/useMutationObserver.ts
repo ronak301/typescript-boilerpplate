@@ -2,7 +2,7 @@ import { useEffect, useMemo, RefObject } from 'react';
 
 import { isSSR, getElement } from 'utils';
 
-interface Props {
+interface MutationObserverProps {
   target?: RefObject<Element> | Element | Node | null;
   options?: MutationObserverInit;
   callback?: MutationCallback;
@@ -12,7 +12,7 @@ export const useMutationObserver = ({
   target,
   options = {},
   callback
-}: Props): void => {
+}: MutationObserverProps): void => {
   const getTarget = useMemo(() => getElement(target), [target]);
   const observer = useMemo(
     () =>
