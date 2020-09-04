@@ -13,13 +13,13 @@ const FETCH_USER_ERROR = 'example/FETCH_USER_ERROR';
 
 // Types
 interface ExampleAction {
-  readonly type: string;
-  readonly payload: any;
+  type: string;
+  payload: any;
 }
 
 interface ExampleState {
-  readonly active: boolean;
-  readonly user: {
+  active: boolean;
+  user: {
     name: string | null;
     loading: boolean;
     error: boolean;

@@ -2,7 +2,7 @@ import { ReactNode, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 
 interface PortalProps {
-  readonly children: ReactNode;
+  children: ReactNode;
 }
 
 const Portal = ({ children }: PortalProps) => {

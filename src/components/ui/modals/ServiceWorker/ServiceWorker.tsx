@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styles from './ServiceWorker.module.scss';
 
 interface ServiceWorkerProps {
-  readonly onUpdate: () => void;
+  onUpdate: () => void;
 }
 
 const ServiceWorker = ({ onUpdate }: ServiceWorkerProps) => {

@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 
 interface LinkProps {
-  readonly children: ReactNode;
+  children: ReactNode;
 }
 
 const Link = ({

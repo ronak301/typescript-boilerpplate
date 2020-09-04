@@ -5,7 +5,7 @@ import { useTabAccess } from 'hooks';
 import styles from './Layout.module.scss';
 
 interface LayoutProps {
-  readonly children: ReactNode;
+  children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {

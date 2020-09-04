@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import styles from './Container.module.scss';
 
 interface ContainerProps {
-  readonly children: ReactNode;
-  readonly className?: string;
-  readonly fullWidth?: boolean;
+  children: ReactNode;
+  className?: string;
+  fullWidth?: boolean;
 }
 
 const Container = ({

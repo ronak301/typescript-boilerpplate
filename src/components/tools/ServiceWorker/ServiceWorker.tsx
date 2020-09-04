@@ -5,12 +5,12 @@ import { ServiceWorker as ServiceWorkerModal } from 'components/ui/modals';
 import { isLocalhost, isProduction } from 'utils';
 
 interface ServiceWorkerConfig {
-  readonly onSuccess?: (registration: ServiceWorkerRegistration) => void;
-  readonly onUpdate?: (registration: ServiceWorkerRegistration) => void;
+  onSuccess?: (registration: ServiceWorkerRegistration) => void;
+  onUpdate?: (registration: ServiceWorkerRegistration) => void;
 }
 
 interface ServiceWorkerProps {
-  readonly showUpdateModal?: boolean;
+  showUpdateModal?: boolean;
 }
 
 const ServiceWorker = ({ showUpdateModal = false }: ServiceWorkerProps) => {
