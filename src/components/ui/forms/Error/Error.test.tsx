@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import Error from './Error';
 
 describe('Error', () => {
   test('TODO: Write test...', () => {});
