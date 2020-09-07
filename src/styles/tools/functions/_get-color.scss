@@ -1,7 +1,10 @@
-@function get-color($color, $shade: 100%) {
-  $shade: min(100%, max(100% - $shade));
+@function get-color($color, $saturation: 0) {
+  $mix-color: if($saturation < 0, #000, #fff);
+  $saturation: min(1, abs($saturation)) * 100;
+
   @if map-has-key($colors, $color) {
     $color: map-get( $colors, $color );
   }
-  @return mix(#fff, $color, $shade);
+
+  @return mix($mix-color, $color, $saturation);
 }
