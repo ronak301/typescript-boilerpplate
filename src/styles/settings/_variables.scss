@@ -111,8 +111,10 @@ $line-heights: (
 
 // Durations
 $durations: (
-  base: .25s,
-  fade: .5s
+  fast: .25s,
+  medium: .5s,
+  slow: .75s,
+  sloth: 2.5s
 );
 
 // Header heights
