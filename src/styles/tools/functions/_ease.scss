@@ -1,0 +1,13 @@
+@function ease($prop, $duration:base, $ease:out-quad, $delay:null) {
+  @if map-has-key($durations, $duration) {
+    $duration: map-get($durations, $duration);
+  }
+  @if map-has-key($easings, $ease) {
+    $ease: map-get($easings, $ease);
+  }
+  @if map-has-key($durations, $delay) {
+    $delay: map-get($durations, $delay);
+  }
+
+  @return $prop $duration $delay $ease;
+}
