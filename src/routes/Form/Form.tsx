@@ -8,7 +8,7 @@ import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useForm } from 'react-hook-form';
 
-import { Container } from 'components/ui/general';
+import { Container, Button } from 'components/ui/general';
 import { Text, Error } from 'components/ui/forms';
 
 interface FormData {
@@ -60,7 +60,7 @@ const Form = () => {
                 <Error error={errors.lastName} message="Minimum length of 2" />
               </div>
               <div>
-                <button type="submit">Send</button>
+                <Button type="submit">Send</Button>
               </div>
             </form>
           </div>

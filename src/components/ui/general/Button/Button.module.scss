@@ -1,0 +1,43 @@
+@import '~styles/settings/variables';
+
+.root {
+  text-decoration: none;
+  border: 2px solid;
+  background-color: transparent;
+  line-height: map-get($line-heights, base);
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 700;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mdSize {
+  padding: map-get($spacings, xs) map-get($spacings, md);
+}
+
+.primaryColor {
+  $color: map-get($colors, primary);
+  background-color: $color;
+  border-color: $color;
+  color: map-get($colors, beta);
+  
+  &.ghost {
+    background-color: transparent;
+    color: $color;
+  }
+
+  &:not(.disabled) {
+    &:hover,
+    &:focus {
+      background-color: map-get($colors, alpha);
+      border-color: map-get($colors, alpha);
+      color: map-get($colors, beta);
+    }
+  }
+}
