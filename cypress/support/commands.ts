@@ -10,5 +10,5 @@
 
 // Just for showcase, remove this
 Cypress.Commands.add('typeText', (value: string) => {
-  cy.get('input[name=text]').type(value, { force: true });
+  cy.get('input[name=firstName]').type(value, { force: true });
 });

@@ -48,8 +48,9 @@ describe('Examples', () => {
 
   it('Type input text through support/commands and fixtures', () => {
     cy.fixture('example').then(({ name }) => {
+      cy.visit('/form');
       cy.typeText(name);
-      cy.get('input[name=text]').should('have.value', name);
+      cy.get('input[name=firstName]').should('have.value', name);
     });
   });
 });
