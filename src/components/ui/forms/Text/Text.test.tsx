@@ -1,7 +1,17 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import React from 'react';
+import { render } from '@testing-library/react';
+import { useForm } from 'react-hook-form';
+
 import Text from './Text';
 
+const TextRegister = () => {
+  const { register } = useForm();
+  return <Text name="text" register={register} />;
+};
+
 describe('Text', () => {
-  test('TODO: Write test...', () => {});
+  test('Renders', () => {
+    const { container } = render(<TextRegister />);
+    expect(container).toBeInTheDocument();
+  });
 });

@@ -1,7 +1,12 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import React from 'react';
+import { render } from '@testing-library/react';
+
 import Error from './Error';
 
 describe('Error', () => {
-  test('TODO: Write test...', () => {});
+  test('Renders error message', () => {
+    const errorMessage = 'Error!?';
+    const { getByText } = render(<Error error={{}} message={errorMessage} />);
+    expect(getByText(errorMessage)).toBeInTheDocument();
+  });
 });

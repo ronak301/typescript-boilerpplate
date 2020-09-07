@@ -40,4 +40,14 @@ describe('Link', () => {
     fireEvent.click(getByText('1337'));
     expect(getByText('1337')).toHaveClass('is-active');
   });
+
+  test('Support external links', () => {
+    const history = createMemoryHistory();
+    const { container } = render(
+      <Router history={history}>
+        <Link to="https://www.modohockey.se/">Modo Hockey</Link>
+      </Router>
+    );
+    expect(container).toBeInTheDocument();
+  });
 });
