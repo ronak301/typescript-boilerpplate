@@ -8,7 +8,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Portal } from 'components/tools';
+import { Portal, Link } from 'components/tools';
 import { Container } from 'components/ui/general';
 import {
   toggleActive,
@@ -82,13 +82,13 @@ const Home = () => {
           <h1>Home</h1>
           <p>
             Lorem ipsum{' '}
-            <a
-              href="https://www.modohockey.se/"
+            <Link
+              to="https://www.modohockey.se/"
               target="_blank"
               rel="noopener noreferrer"
             >
               dolor sit amet
-            </a>{' '}
+            </Link>{' '}
             consectetur, adipisicing elit.
           </p>
           <p>
