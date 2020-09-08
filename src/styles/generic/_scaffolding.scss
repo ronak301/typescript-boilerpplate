@@ -11,6 +11,7 @@ body {
   overflow-wrap: break-word;
   background-color: map-get($colors, beta);
 
+  &::before,
   &::after {
     position: absolute;
     left: -1337px;
@@ -20,16 +21,20 @@ body {
     opacity: 0;
     font-size: 0;
     z-index: -1;
+  }
 
-    @each $breakpoint-key, $breakpoint-value in $breakpoints {
+  &::before {
+    content: '#{map-keys(map-sort-by-values($breakpoints))}';
+  }
+
+  &::after {
+    @each $breakpoint-key, $breakpoint-value in map-sort-by-values($breakpoints) {
       @if ($breakpoint-key == 'xs') {
         content: 'xs';
       }
 
-      @if ($breakpoint-key != 'navbar') {
-        @include respond-to($breakpoint-key) {
-          content: '#{$breakpoint-key}';
-        }
+      @include respond-to($breakpoint-key) {
+        content: '#{$breakpoint-key}';
       }
     }
   }

@@ -132,8 +132,19 @@ const Home = () => {
         <h6>Showcase hooks data</h6>
         <ul style={{ marginBottom: 0 }}>
           <li>
-            Breakpoint (debounce 250): <b>{breakpoint}</b>
+            Breakpoint (debounce 250):
             <ul style={{ marginBottom: 0 }}>
+              <li>
+                Current: <b>{breakpoint.current}</b>
+              </li>
+              <li>
+                Equal <i>&apos;navbar&apos;</i>:{' '}
+                <b>{breakpoint.equal('sm').toString()}</b>
+              </li>
+              <li>
+                Min <i>&apos;sm&apos;</i>:{' '}
+                <b>{breakpoint.min('sm').toString()}</b>
+              </li>
               <li>
                 Uses <code style={{ fontSize: '14px' }}>useResize()</code>
                 for the resize event and gets the breakpoints from{' '}

@@ -3,9 +3,13 @@ import { useEffect, useState, useCallback } from 'react';
 import { useWindowSize } from 'hooks';
 import { isSSR } from 'utils';
 
-export const useBreakpoint = (): string | undefined => {
+export const useBreakpoint = (): {
+  current?: string;
+  equal: (breakpoint: string) => boolean;
+  min: (breakpoint: string) => boolean;
+} => {
   const { width } = useWindowSize();
-  const getBreakpoint = useCallback(
+  const getCurrentBreakpoint = useCallback(
     () =>
       isSSR
         ? undefined
@@ -14,11 +18,52 @@ export const useBreakpoint = (): string | undefined => {
             .content.replace(/"/g, ''),
     []
   );
-  const [breakpoint, setBreakpoint] = useState(getBreakpoint);
+  const getAllBreakpoints = useCallback(
+    () =>
+      isSSR
+        ? undefined
+        : window
+            .getComputedStyle(document.body, '::before')
+            .content.replace(/"/g, '')
+            .split(', '),
+    []
+  );
+  const [currentBreakpoint, setCurrentBreakpoint] = useState(
+    getCurrentBreakpoint
+  );
+
+  const equal = useCallback(
+    (breakpoint: string) => breakpoint === currentBreakpoint,
+    [currentBreakpoint]
+  );
+
+  const min = useCallback(
+    (breakpoint: string) => {
+      const allBreakpoints = getAllBreakpoints();
+
+      if (allBreakpoints?.includes(breakpoint)) {
+        const currentBreakpointIndex = allBreakpoints.findIndex(
+          (bp) => bp === currentBreakpoint
+        );
+        const breakpointIndex = allBreakpoints.findIndex(
+          (bp) => bp === breakpoint
+        );
+
+        return currentBreakpointIndex >= breakpointIndex;
+      }
+
+      return false;
+    },
+    [currentBreakpoint, getAllBreakpoints]
+  );
 
   useEffect(() => {
-    setBreakpoint(getBreakpoint);
-  }, [width, getBreakpoint]);
+    setCurrentBreakpoint(getCurrentBreakpoint);
+  }, [width, getCurrentBreakpoint]);
 
-  return breakpoint;
+  return {
+    current: currentBreakpoint,
+    equal,
+    min
+  };
 };
