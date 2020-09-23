@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { of, from } from 'rxjs';
+import { AxiosResponse } from 'axios';
 
 import { fetchExampleAsObservable } from 'api/example';
 
@@ -14,7 +15,7 @@ const FETCH_USER_ERROR = 'example/FETCH_USER_ERROR';
 // Types
 interface ExampleAction {
   type: string;
-  payload: any;
+  payload?: any;
 }
 
 interface ExampleState {
@@ -48,15 +49,14 @@ export const fetchUserStart = (id: number | string) => ({
 });
 
 export const fetchUserSuccess = (
-  data: { data: { name: string } } | unknown
+  data: AxiosResponse<{ name: string }> | unknown
 ) => ({
   type: FETCH_USER_SUCCESS,
   payload: data
 });
 
-export const fetchUserError = (error: boolean) => ({
-  type: FETCH_USER_ERROR,
-  payload: error
+export const fetchUserError = () => ({
+  type: FETCH_USER_ERROR
 });
 
 // Reducers
@@ -118,7 +118,7 @@ const testEpic: Epic<ExampleAction, ExampleAction, ExampleState> = (action$) =>
     switchMap((action) =>
       from(fetchExampleAsObservable(action.payload)).pipe(
         map((response) => fetchUserSuccess(response)),
-        catchError((error) => of(fetchUserError(error)))
+        catchError(() => of(fetchUserError()))
       )
     )
   );
