@@ -4,7 +4,7 @@ import { ofType, Epic } from 'redux-observable';
 import { of, from } from 'rxjs';
 import { AxiosResponse } from 'axios';
 
-import { fetchExampleAsObservable } from 'api/example';
+import { ExampleService } from 'api';
 
 // Constants
 const TOGGLE_ACTIVE = 'example/TOGGLE_ACTIVE';
@@ -91,7 +91,7 @@ export default (state: ExampleState = initialState, action: ExampleAction) => {
         ...state,
         user: {
           ...state.user,
-          name: action.payload.data.name,
+          name: action.payload.name,
           loading: false,
           error: false
         }
@@ -112,15 +112,17 @@ export default (state: ExampleState = initialState, action: ExampleAction) => {
 };
 
 // Epics
-const testEpic: Epic<ExampleAction, ExampleAction, ExampleState> = (action$) =>
+const exampleEpic: Epic<ExampleAction, ExampleAction, ExampleState> = (
+  action$
+) =>
   action$.pipe(
     ofType(FETCH_USER_START),
     switchMap((action) =>
-      from(fetchExampleAsObservable(action.payload)).pipe(
+      from(ExampleService.getUser$(action.payload)).pipe(
         map((response) => fetchUserSuccess(response)),
         catchError(() => of(fetchUserError()))
       )
     )
   );
 
-export const exampleEpics = [testEpic];
+export const exampleEpics = [exampleEpic];
