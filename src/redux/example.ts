@@ -118,7 +118,7 @@ const exampleEpic: Epic<ExampleAction, ExampleAction, ExampleState> = (
   action$.pipe(
     ofType(FETCH_USER_START),
     switchMap((action) =>
-      from(ExampleService.getUser$(action.payload)).pipe(
+      from(ExampleService.getUserName$(action.payload)).pipe(
         map((response) => fetchUserSuccess(response)),
         catchError(() => of(fetchUserError()))
       )
