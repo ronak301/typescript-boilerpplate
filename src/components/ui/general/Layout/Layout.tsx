@@ -14,7 +14,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className={styles.root}>
       <Header />
-      <main className={styles.content}>{children}</main>
+      <section className={styles.content}>{children}</section>
       <Footer />
     </div>
   );
