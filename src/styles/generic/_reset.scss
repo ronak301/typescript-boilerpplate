@@ -67,3 +67,7 @@ button,
 [type='submit'] {
   cursor: pointer;
 }
+
+::-ms-clear {
+  display: none;
+}
