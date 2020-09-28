@@ -4,8 +4,13 @@ import { Observable, PartialObserver } from 'rxjs';
 import environment from 'api/environment';
 
 export const apiUriInterceptor = (request: AxiosRequestConfig) => {
-  if (request?.url?.startsWith('backend://') && environment.apiUrl) {
-    request.url = request.url.replace('backend://', environment.apiUrl);
+  const { apiUrl } = environment;
+
+  if (request?.url?.startsWith('backend://') && apiUrl) {
+    request.url = request.url.replace(
+      'backend://',
+      apiUrl.endsWith('/') ? apiUrl : `${apiUrl}/`
+    );
   }
 
   return request;
