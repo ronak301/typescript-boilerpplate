@@ -15,7 +15,7 @@ const FETCH_USER_ERROR = 'example/FETCH_USER_ERROR';
 // Types
 interface ExampleAction {
   type: string;
-  payload?: any;
+  payload?: any; // 🙈
 }
 
 interface ExampleState {
